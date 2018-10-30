@@ -8,7 +8,7 @@ public class UdpUnicastServer implements Runnable {
      */
 	private int step = 2048;
     private final int clientPort;
-    private final String CLIENTIP = "192.168.1.12";
+    private final String CLIENTIP = "192.168.1.20";
     public UdpUnicastServer(int clientPort) {
         this.clientPort = clientPort;
     }
@@ -49,10 +49,14 @@ public class UdpUnicastServer implements Runnable {
     
     private byte[] random() {
     	short[] array = new short[2048];
+    	int j = 0;
     	for (int i = 0; i < array.length; i++) {
-			array[i] = (short)(Math.sin(i + step) * 100);
+			if((i / 300) % 2 == 1) {
+				array[i] += (short)MathHelper.randomNumber(-160, -155);
+			}else {
+				array[i] += (short)MathHelper.randomNumber(355, 360);
+			}
 		}
-    	step += 2048;
     	
     	return Converter.convert(array);
     }
